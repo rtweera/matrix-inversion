@@ -2,17 +2,43 @@
 <html>
 
 <head>
+    <title>Matrix Inversion Tool</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="A pure JavaScript matrix inversion calculator using the cofactor method">
     <script type="text/javascript" src="matrix-inversion.js"></script>
     <script>
+        /**
+         * Handles the matrix inversion computation and logging
+         * 
+         * This function:
+         * 1. Reads matrix values and dimensions from the form
+         * 2. Creates a matrix object from the input
+         * 3. Calculates determinant, minors, adjugate, and inverse
+         * 4. Logs all intermediate and final results to the browser console
+         * 
+         * Results are displayed in the browser console (F12)
+         */
         function write_matrix() {
-            let arr = document.getElementById("matrix").value.split(" ").map(Number);   // array.prototype.map() method
+            // Parse input values
+            // split(" ") breaks the space-separated string into array
+            // map(Number) converts each string element to a number
+            let arr = document.getElementById("matrix").value.split(" ").map(Number);
             let r = parseInt(document.getElementById("rows").value);
             let c = parseInt(document.getElementById("cols").value);
+            
+            // Step 1: Create the matrix object from flat array
             let matrixObj = create_matrix(r, c, arr);
+            
+            // Step 2: Calculate the matrix of minors
             let minorsObj = return_minors();
+            
+            // Step 3: Calculate the adjugate matrix (cofactor signs + transpose)
             let adjugateObj = return_adjugate();
+            
+            // Step 4: Calculate the final inverse matrix
             let inverseObj = return_inverse();
 
+            // Log results to console for inspection
             console.log("matrix object:", matrixObj);
             console.log("minors object:", minorsObj);
             console.log("adjugate object:", adjugateObj);
@@ -20,29 +46,81 @@
         }
 
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            border-spacing: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        input[type="button"] {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 
 <body>
-    <table style="border-spacing: 10px;">
+    <h1>Matrix Inversion Calculator</h1>
+    <p>Compute the inverse of a square matrix using the cofactor method.</p>
+    
+    <table>
         <tr>
             <td><label>Matrix:</label></td>
-            <td><input type="text" id="matrix" size="50" /></td>
+            <td>
+                <input type="text" id="matrix" size="50" 
+                       placeholder="Enter space-separated values (e.g., 1 2 3 4)" />
+            </td>
         </tr>
         <tr>
             <td><label>Rows:</label></td>
-            <td><input type="text" id="rows" size="1"/></td>
+            <td><input type="text" id="rows" size="1" placeholder="2" /></td>
         </tr>
         <tr>
             <td><label>Columns:</label></td>
-            <td><input type="text" id="cols" size="1"/></td>
+            <td><input type="text" id="cols" size="1" placeholder="2" /></td>
         </tr>
         <tr>
             <td colspan="2">
-                <input type="button" id="btn" value="create matrix" onclick="write_matrix()" />
+                <input type="button" id="btn" value="Calculate Inverse" onclick="write_matrix()" />
             </td>
         </tr>
-
     </table>
+    
+    <h3>Instructions:</h3>
+    <ol>
+        <li>Enter matrix values as space-separated numbers</li>
+        <li>Specify the number of rows and columns (must be equal for a square matrix)</li>
+        <li>Click "Calculate Inverse" button</li>
+        <li>Open browser console (F12) to see the results</li>
+    </ol>
+    
+    <h3>Example:</h3>
+    <ul>
+        <li>Matrix: <code>1 2 3 4</code></li>
+        <li>Rows: <code>2</code></li>
+        <li>Columns: <code>2</code></li>
+        <li>Expected Inverse: <code>[[-2, 1], [1.5, -0.5]]</code></li>
+    </ul>
+    
+    <p><strong>Note:</strong> Open the browser console (Press F12, then go to the Console tab) to see the detailed output including matrix object, minors, adjugate, and inverse matrices.</p>
 </body>
 
 </html>
